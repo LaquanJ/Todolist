@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# Template - Web
+A template for a ReactJS SPA frontend website.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Configuration
+See [this page](./doc/configuration.md) for details on how to configure the
+solution in a deployment context.
 
-In the project directory, you can run:
 
-### `npm start`
+## Build and Run Instructions
+This repository leverages Docker to streamline development. Use the following
+command in this root directory to build and run the solution:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+`docker-compose up`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Once running, you can access the solution at
+[http://localhost:8080](http://localhost:8080)
 
-### `npm test`
+### Build Arguments
+All required environment variables with the prefix `REACT_APP` must be defined
+as build arguments to ensure the packager performs the associated replacements.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Testing
+This solution uses the Jest framework for unit and integration tests. With the
+solution running, the test suite can be executed with the following commands:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Full Test Suite `docker-compose exec app npm run test`
+* Unit Test Suite `docker-compose exec app npm run test:unit`
+* Integration Test Suite `docker-compose exec app npm run test:integration`
+* User Defined Test Pattern `docker-compose exec app npm run test --
+  <userpattern>`
+  * Example for just the index.jsx unit test: `docker-compose exec app npm run
+    test -- unit/index`
+* Linting `docker-compose exec app npm run test-lint`
+  * Rules applied are green check marked items in https://eslint.org/docs/latest/rules/
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Test Debugging
+Port 9230 is setup as the solution's testing debug port and exposed on the
+Docker host for development purposes. To debug tests, execute the tests with the
+following command:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`docker-compose exec app npm run test-debug`
 
-### `npm run eject`
+The container's test execution will then wait for your host's debugger to
+attach.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Test Suite Mount Directory
+Due to the opinionated nature of Create React App; all tests must be present
+under the root `src` directory to be executed by the toolchain. To maintain the
+CLA project structure pattern of keeping tests separate, docker-compose is
+configured to mount the host test folder to `/opt/cla/src/__tests__`. The caveat
+here is that is may not be obvious where the tests are located depending on if
+the developer is in the Docker context or not. Most notably, this will impact
+the debugging configuration; a proper setup likely being:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Local Root
+  * ./test
+* Remote Root
+  * /opt/cla/src/\_\_tests__
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Production vs Development Differences
+Production deployment of this solution is predicated on Azure Active Directory
+authentication being configured appropriately. To streamline local development
+efforts a minimal handful of bypass logic exists to "fake" the authentication
+when in development mode as follows:
 
-## Learn More
+```
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  console.log('DEVELOPMENT ONLY CODE');
+  console.log(process.env);
+} else {
+  console.log('PRODUCTION ONLY CODE');
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+When the solution is built for production the NODE_ENV variable and any
+underlying gated logic will be stripped from the code base as part of Webpack's
+minification effort; since effectively its detected as dead code.

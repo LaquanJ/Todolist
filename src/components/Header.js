@@ -1,11 +1,10 @@
 import React from "react";
 
-
 function Header() {
   return (
     <header>
       <h1>
-      Todo List
+        Todo List
       </h1>
     </header>
   );

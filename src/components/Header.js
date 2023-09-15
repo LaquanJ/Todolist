@@ -1,12 +1,11 @@
 import React from "react";
-import NotesIcon from "@material-ui/icons/Notes";
+
 
 function Header() {
   return (
     <header>
       <h1>
-        <NotesIcon />
-        ToDoList
+      Todo List
       </h1>
     </header>
   );

@@ -34,48 +34,47 @@ services:
 
       # testing
       - ./test:/opt/cla/src/__tests__
-
   # ============================================================================
   # persistence
   # ============================================================================
-  sql:
-    image: todo-web-api_sql:latest
-    ports:
-      - 1433:1433
-    environment:
-      # configuration
-      - SA_PASSWORD=Abcde12345
-      - INIT_DB_NAME=api
-    volumes:
-      - mssql:/var/opt/mssql
+  # sql:
+  #   image: todo-web-api_sql:latest
+  #   ports:
+  #     - 1433:1433
+  #   environment:
+  #     # configuration
+  #     - SA_PASSWORD=Abcde12345
+  #     - INIT_DB_NAME=api
+  #   volumes:
+  #     - mssql:/var/opt/mssql
 
   ### ==========================================================================
   ### backend
   ### ==========================================================================
-  api:
-    image: todo-web-api_app:latest
-    command: >
-      sh -c './wait-for.sh -t 300 sql:1433 \
-       -- npm run start'
-    ports:
-      - 8081:8080
-    environment:
-      # logging
-      - LOG_LEVEL=debug
+  # api:
+  #   image: todo-web-api_app:latest
+  #   command: >
+  #     sh -c './wait-for.sh -t 300 sql:1433 \
+  #      -- npm run start'
+  #   ports:
+  #     - 8081:8080
+  #   environment:
+  #     # logging
+  #     - LOG_LEVEL=debug
 
-      # database
-      - DB_SQL_HOST=sql
-      - DB_SQL_PORT=1433
-      - DB_SQL_USERNAME=sa
-      - DB_SQL_PASSWORD=Abcde12345
-      - DB_SQL_DATABASE=api
+  #     # database
+  #     - DB_SQL_HOST=sql
+  #     - DB_SQL_PORT=1433
+  #     - DB_SQL_USERNAME=sa
+  #     - DB_SQL_PASSWORD=Abcde12345
+  #     - DB_SQL_DATABASE=api
 
-      # fix for WSL2 file watch limitation
-      - CHOKIDAR_USEPOLLING=true
-    healthcheck:
-      disable: true
-    depends_on:
-      - sql
+  #     # fix for WSL2 file watch limitation
+  #     - CHOKIDAR_USEPOLLING=true
+  #   healthcheck:
+  #     disable: true
+  #   depends_on:
+  #     - sql
 
 volumes:
   mssql:

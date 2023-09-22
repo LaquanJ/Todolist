@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ToDov = ({todo}) => {
+const ToDo = ({ todo }) => {
     return (
         <div className={todo.done ? "strike" : ""}>
             {todo.title}
@@ -8,3 +8,5 @@ const ToDov = ({todo}) => {
         </div>
     )
 }
+
+export default ToDo;

@@ -1,4 +1,4 @@
-body {
+/* body {
   background-color: #1f1e1e;
   color: white;
   overflow: hidden;
@@ -135,4 +135,8 @@ h1 {
 
 .check-icon:hover {
   color: rgb(4, 196, 106);
+} */
+
+.strike {
+  text-decoration: line-through;
 }

@@ -2,6 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import React, { useState } from 'react';
 import TodoInput from './components/ToDoInput';
+import TodoList from './components/ToDoList';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
 
       <div className="todo-wrapper">
         <TodoInput />
+        <TodoList toDoList={toDoList} />
       </div>
     </div>
   );

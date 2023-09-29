@@ -1,11 +1,12 @@
 'use strict'
 
 // common modules
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // custom modules
 import TodoInput from '@components/ToDoInput';
 import TodoList from '@components/ToDoList';
+import api from '@utilities/todosApi.js';
 
 
 const users = [
@@ -37,23 +38,35 @@ const todos = [
 
 
 function Home() {
-  const [toDoList, setToDoList] = useState(todos);
+  const [toDoList, setToDoList] = useState([]);
+  const [isCompleteScreen, setIsCompleteScreen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const addTodo = (todo) => {
     setToDoList([todo, ...toDoList]);
   };
 
-  const [isCompleteScreen, setIsCompleteScreen] = useState(false);
+  useEffect(() => {
+    if (!isLoaded) {
+      api.get('todos').then((response) => {
+        setToDoList(response.data.results);
+        setIsLoaded(true);
+      }).catch((error) => {
+        console.error(error);
+        setIsLoaded(true);
+      })
+    }
+  }, []);
 
   return (
     <div className="home">
       <div className="todo-wrapper">
         <TodoInput addTodoFn={addTodo} />
         <div className='btn-area'>
-          <button className={`secondaryBtn ${isCompleteScreen===false && 'active'}`} onclick={ () => setIsCompleteScreen(false)}>Todo</button>
-          <button className={`secondaryBtn ${isCompleteScreen===true && 'active'}`} onclick={ () => setIsCompleteScreen(true)}>Completed</button>
+          <button className={`secondaryBtn ${isCompleteScreen === false && 'active'}`} onClick={() => setIsCompleteScreen(false)}>Todo</button>
+          <button className={`secondaryBtn ${isCompleteScreen === true && 'active'}`} onClick={() => setIsCompleteScreen(true)}>Completed</button>
         </div>
-        <TodoList toDoList={toDoList} />
+        {isLoaded && <TodoList toDoList={toDoList} />}
 
       </div>
     </div>

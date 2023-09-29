@@ -14,7 +14,7 @@ services:
       - 9230:9230
     volumes:
       # configurations
-      - REACT_APP_API_BASE=http://localhost:8081
+      #- REACT_APP_API_BASE=http://localhost:8081
 
       # application
       - ./public:/opt/cla/public

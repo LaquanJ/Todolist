@@ -43,11 +43,18 @@ function Home() {
     setToDoList([todo, ...toDoList]);
   };
 
+  const [isCompleteScreen, setIsCompleteScreen] = useState(false);
+
   return (
     <div className="home">
       <div className="todo-wrapper">
         <TodoInput addTodoFn={addTodo} />
+        <div className='btn-area'>
+          <button className={`secondaryBtn ${isCompleteScreen===false && 'active'}`} onclick={ () => setIsCompleteScreen(false)}>Todo</button>
+          <button className={`secondaryBtn ${isCompleteScreen===true && 'active'}`} onclick={ () => setIsCompleteScreen(true)}>Completed</button>
+        </div>
         <TodoList toDoList={toDoList} />
+
       </div>
     </div>
   )

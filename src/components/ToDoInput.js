@@ -4,6 +4,11 @@ import { useState } from 'react';
 const TodoInput = ({ addTodoFn }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const handleClick = () => {
+    addTodoFn({title, description});
+    setTitle("");
+    setDescription("");
+  }
 
   return (
     <div className='todo-input'>
@@ -28,7 +33,8 @@ const TodoInput = ({ addTodoFn }) => {
         <button
           className='primaryBtn'
           type='button'
-          onClick={() => addTodoFn({ title, description })}>
+          onClick={handleClick}
+          >
           Add
         </button>
       </div>

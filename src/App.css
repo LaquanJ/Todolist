@@ -1,4 +1,4 @@
-/* body {
+ body {
   background-color: #1f1e1e;
   color: white;
   overflow: hidden;
@@ -118,7 +118,6 @@ h1 {
 }
 
 .icon {
-  font-size: 35px;
   cursor: pointer;
 }
 
@@ -127,15 +126,21 @@ h1 {
 }
 
 .check-icon {
-  margin-left: 10px;
-  font-size: 25px;
-  color: rgb(0, 230, 122);
   cursor: pointer;
 }
 
 .check-icon:hover {
+ 
   color: rgb(4, 196, 106);
-} */
+} 
+
+.edit-icon {
+  cursor: pointer;
+}
+
+.edit-icon:hover {
+  color: rgb(4, 151, 196);
+} 
 
 .strike {
   text-decoration: line-through;

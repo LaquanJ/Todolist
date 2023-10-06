@@ -48,7 +48,7 @@ function Home() {
 
     api.post('todos', todo).then((response) => {
       console.log(response.data);
-      setToDoList([todo, ...toDoList]);
+      setToDoList([...toDoList, todo]);
     }).catch((error) => {
       console.error(error);
     })

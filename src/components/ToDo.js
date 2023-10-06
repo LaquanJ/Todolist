@@ -1,7 +1,12 @@
 import React from 'react';
+import { useState } from 'react';
 
+const ToDo = ({ todo, deleteTodo}) => {
 
-const ToDo = ({ todo }) => {
+const handleDeleteClick = () => {
+    deleteTodo(todo.id);
+}
+ 
     return (
         <div className="todo-list-item">
             <div>
@@ -11,7 +16,7 @@ const ToDo = ({ todo }) => {
             <div>
             <button className="secondaryBtn check-icon">Mark Complete</button>
             <button className="secondaryBtn edit-icon">Edit</button>
-            <button className="secondaryBtn icon">Delete</button>
+            <button className="secondaryBtn icon" onClick={handleDeleteClick}>Delete</button>
             </div>
 
         </div>

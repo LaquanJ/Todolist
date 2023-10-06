@@ -2,11 +2,9 @@
 import { useState } from 'react';
 
 const TodoInput = ({ addTodoFn, users }) => {
- const u = users.map((user) => {
-  console.log(user.userName)
- });
 
- console.log(u);
+
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedUser, setSelectedUser] = useState('');

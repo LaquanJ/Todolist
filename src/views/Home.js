@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 
 // custom modules
+import ToDo from '@components/ToDo';
 import TodoInput from '@components/ToDoInput';
 import TodoList from '@components/ToDoList';
 import api from '@utilities/todosApi.js';
@@ -55,6 +56,17 @@ function Home() {
 
   };
 
+  const deleteTodo = (id) => {
+    api.delete(`todos/${id}`)
+      .then(() => {
+        const updatedTodos = toDoList.filter((todo) => todo.id !== id);
+        setToDoList(updatedTodos);
+      })
+      .catch((error) => {
+        console.error('Error deleting todo:', error);
+      });
+  };
+
   useEffect(() => {
     if (!isLoaded) {
       api.get('todos').then((response) => {
@@ -88,7 +100,7 @@ function Home() {
           <button className={`secondaryBtn ${isCompleteScreen === false && 'active'}`} onClick={() => setIsCompleteScreen(false)}>Todo</button>
           <button className={`secondaryBtn ${isCompleteScreen === true && 'active'}`} onClick={() => setIsCompleteScreen(true)}>Completed</button>
         </div>
-        {isLoaded && <TodoList toDoList={toDoList} />}
+        {isLoaded && <TodoList toDoList={toDoList} deleteTodo={deleteTodo}/>}
 
       </div>
     </div>

@@ -21,5 +21,3 @@ const ToDo = ({ todo }) => {
 export default ToDo;
 
 
-
-//{todo.done ? "strike" : ""}

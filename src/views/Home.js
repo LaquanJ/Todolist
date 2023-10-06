@@ -39,11 +39,20 @@ const todos = [
 
 function Home() {
   const [toDoList, setToDoList] = useState([]);
+  const [users, setUsers] = useState([]);
   const [isCompleteScreen, setIsCompleteScreen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const addTodo = (todo) => {
-    setToDoList([todo, ...toDoList]);
+
+    api.post('todos', todo).then((response) => {
+      console.log(response.data);
+      setToDoList([todo, ...toDoList]);
+    }).catch((error) => {
+      console.error(error);
+    })
+    
+
   };
 
   useEffect(() => {
@@ -58,10 +67,23 @@ function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!isLoaded) {
+      api.get('users').then((response) => {
+        console.log(response.data);
+        setUsers(response.data.results);
+        setIsLoaded(true);
+      }).catch((error) => {
+        console.error(error);
+        setIsLoaded(true);
+      })
+    }
+  }, []);
+
   return (
     <div className="home">
       <div className="todo-wrapper">
-        <TodoInput addTodoFn={addTodo} />
+        <TodoInput addTodoFn={addTodo} users={users} />
         <div className='btn-area'>
           <button className={`secondaryBtn ${isCompleteScreen === false && 'active'}`} onClick={() => setIsCompleteScreen(false)}>Todo</button>
           <button className={`secondaryBtn ${isCompleteScreen === true && 'active'}`} onClick={() => setIsCompleteScreen(true)}>Completed</button>

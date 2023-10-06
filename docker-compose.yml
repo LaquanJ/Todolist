@@ -57,15 +57,15 @@ services:
   ### backend
   ### ==========================================================================
   api:
-    image: todo-web-api_app:latest
+    image: todo-web-api:latest
     command: >
       sh -c './wait-for.sh -t 300 sql:1433 \
        -- npm run start'
     ports:
       - 8081:8080
     environment:
-      # logging
-      - LOG_LEVEL=debug
+      # local development environment
+      - NODE_ENV=development
 
       # database
       - DB_SQL_HOST=sql

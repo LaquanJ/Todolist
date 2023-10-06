@@ -1,13 +1,21 @@
 // common modules
 import { useState } from 'react';
 
-const TodoInput = ({ addTodoFn }) => {
+const TodoInput = ({ addTodoFn, users }) => {
+ const u = users.map((user) => {
+  console.log(user.userName)
+ });
+
+ console.log(u);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [selectedUser, setSelectedUser] = useState('');
+
   const handleClick = () => {
-    addTodoFn({title, description});
+    addTodoFn({title, description, userId: selectedUser});
     setTitle("");
     setDescription("");
+    setSelectedUser('');
   }
 
   return (
@@ -29,6 +37,22 @@ const TodoInput = ({ addTodoFn }) => {
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
+
+      <div className='todo-input-item'>
+        <label>Users</label>
+  <select
+    value={selectedUser}
+    onChange={(e) => setSelectedUser(e.target.value)}
+  >
+    <option value=''>Select a user</option>
+    {users.map((user) => (
+      <option key={`user-${user.id}`} value={user.id}>
+        {user.userName}
+      </option>
+    ))}
+  </select>
+      </div>
+
       <div className='todo-input-item'>
         <button
           className='primaryBtn'

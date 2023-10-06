@@ -29,14 +29,13 @@ function Users() {
   }, []);
 
   const handleRemove = (id) => {
-    setUsers(users.filter((u) => u.id !== id));
-    // api.delete(`users/${id}`)
-    //   .then(() => {
-    //     setUsers(users.filter((u) => u.id !== id));
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error deleting todo:', error);
-    //   });
+    api.delete(`users/${id}`)
+      .then(() => {
+        setUsers(users.filter((u) => u.id !== id));
+      })
+      .catch((error) => {
+        console.error('Error deleting todo:', error);
+      });
   };
 
   const usersTable = () => {

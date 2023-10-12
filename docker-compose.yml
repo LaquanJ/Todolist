@@ -1,0 +1,91 @@
+version: "3.4"
+
+services:
+
+  # ============================================================================
+  # frontend
+  # ============================================================================
+  app:
+    build:
+      context: .
+      target: base
+    ports:
+      - 8080:8080
+      - 9230:9230
+    environment:
+      # configurations
+      - REACT_APP_API_BASE=http://localhost:8081
+
+      # fix for WSL2 file watch limitation
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      # application
+      - ./public:/opt/cla/public
+      - ./src/assets:/opt/cla/src/assets
+      - ./src/components:/opt/cla/src/components
+      - ./src/views:/opt/cla/src/views
+      - ./src/utilities:/opt/cla/src/utilities
+      - ./src/App.js:/opt/cla/src/App.js
+      - ./src/index.js:/opt/cla/src/index.js
+      - ./src/index.css:/opt/cla/src/index.css
+      - ./src/App.css:/opt/cla/src/App.css
+
+      # configuration
+      - ./config/.browserslistrc:/opt/cla/.browserslistrc
+      - ./config/craco.config.js:/opt/cla/craco.config.js
+      - ./config/default.eslintrc.json:/opt/cla/default.eslintrc.json
+
+      # testing
+      - ./test:/opt/cla/src/__tests__
+  # ============================================================================
+  # persistence
+  # ============================================================================
+  sql:
+    build:
+      context: .
+      dockerfile: Dockerfile.sql
+    ports:
+      - 1433:1433
+    environment:
+      # configuration
+      - SA_PASSWORD=Abcde12345
+      - INIT_DB_NAME=api
+    volumes:
+      - mssql:/var/opt/mssql
+
+  ### ==========================================================================
+  ### backend
+  ### ==========================================================================
+  api:
+    image: todo-web-api:latest
+    command: >
+      sh -c './wait-for.sh -t 300 sql:1433 \
+       -- npm run start'
+    ports:
+      - 8081:8080
+    environment:
+      # local development environment
+      - NODE_ENV=development
+
+      # database
+      - DB_SQL_HOST=sql
+      - DB_SQL_PORT=1433
+      - DB_SQL_USERNAME=sa
+      - DB_SQL_PASSWORD=Abcde12345
+      - DB_SQL_DATABASE=api
+
+      # azure active directory
+      - AZURE_AD_AUTHORITY=https://login.microsoftonline.com/00000000-0000-0000-0000-000000000000
+      - AZURE_AD_TENANT=00000000-0000-0000-0000-000000000000
+      - AZURE_AD_CLIENT_ID=00000000-0000-0000-0000-000000000000
+      - AZURE_AD_CLIENT_SECRET=1234
+
+      # fix for WSL2 file watch limitation
+      - CHOKIDAR_USEPOLLING=true
+    healthcheck:
+      disable: true
+    depends_on:
+      - sql
+
+volumes:
+  mssql:

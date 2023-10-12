@@ -24,6 +24,42 @@ function Todos() {
 
   };
 
+  const editTodo = (id, updatedTodo) => {
+    //Put request to update todo
+    api.put(`todos/${id}`, updatedTodo).then((response)=> {
+      const updatedTodos = toDoList.map((todo) => {
+        if(todo.id === id) {
+  console.log(todo);
+  console.log(updatedTodo)
+          return {...todo, ...updatedTodo};
+
+        }
+        return todo;
+
+      });
+      console.log(updatedTodos)
+      setToDoList(updatedTodos)
+    }).catch((error) => {
+      console.error(error);
+    })
+  }
+
+  const markComplete = (id) => {
+    const updatedTodo = {done: true};
+
+    api.put(`todos/${id}`, updatedTodo).then((response) => {
+      const updatedTodos = toDoList.map((todo) => {
+        if(todo.id === id) {
+          return {...todo, ...updatedTodo};
+        }
+        return todo;
+      });
+      setToDoList(updatedTodos)
+    }).catch((error) => {
+      console.error(error);
+    })
+  }
+
   const deleteTodo = (id) => {
     api.delete(`todos/${id}`)
       .then(() => {
@@ -67,6 +103,9 @@ function Todos() {
       // update filtered results based on filter
       if (filter === 'done') {
         setFilteredList(toDoList.filter((t) => t.done === true));
+      }else if (filter === '') {
+        // Display todos not mark completed
+        setFilteredList(toDoList.filter((t)=> t.done !== true));
       } else {
         setFilteredList(toDoList);
       }
@@ -86,7 +125,7 @@ function Todos() {
             className={`secondaryBtn ${filter === 'done' && 'active'}`}
             onClick={() => setFilter('done')}>Completed</button>
         </div>
-        {toDoList && <TodoList toDoList={filteredList} deleteTodo={deleteTodo} />}
+        {toDoList && <TodoList toDoList={filteredList} deleteTodo={deleteTodo} onComplete={markComplete} editTodo={editTodo}/>}
 
       </div> : <div>Loading...</div>}
     </div>

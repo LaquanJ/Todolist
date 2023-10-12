@@ -28,6 +28,17 @@ function Users() {
     }
   }, []);
 
+  const handleAdd = (user) => {
+    api.post('users', user).then((response) => {
+      console.log(response.data);
+      setUsers([...users, { id: response.data.id, ...user }]);
+    }).catch((error) => {
+      console.error(error);
+    })
+
+
+  };
+
   const handleRemove = (id) => {
     api.delete(`users/${id}`)
       .then(() => {

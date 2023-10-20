@@ -8,27 +8,36 @@ import AddUserModal from '@components/AddUserModal';
 import EditUserModal from '@components/EditUserModal';
 
 function Users() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [data, setData] = useState({
+    isLoaded: false,
+    users: []
+  });
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showEditUserModal, setShowEditUserModal] = useState(false);
   const [editUser, setEditUser] = useState(null);
 
+  console.log('users rendered');
+
   useEffect(() => {
-    if (!isLoaded) {
+    if (!data.isLoaded) {
       // fetch todos from API
       api.get('users')
         .then((response) => {
           console.log(response.data.results);
-          // update users in component state
-          setUsers(response.data.results);
 
-          // set isLoaded to true when loading completes
-          setIsLoaded(true);
+          // update users and isLoaded
+          setData({
+            isLoaded: true,
+            users: response.data.results
+          })
         })
         .catch((error) => {
           console.error(error);
           setIsLoaded(true); // set isLoaded to true when error occurs
+          setData({
+            ...data,
+            isLoaded: true,
+          })
         })
     }
   }, []);
@@ -68,8 +77,8 @@ function Users() {
   }
 
   const updateUser = (user) => {
-setEditUser(user)
-setShowEditUserModal(true);
+    setEditUser(user)
+    setShowEditUserModal(true);
   }
 
   const handleRemove = (id) => {
@@ -98,7 +107,7 @@ setShowEditUserModal(true);
           </tr>
         </thead>
         <tbody>
-          {users && users.map((u) => {
+          {data.users && data.users.map((u) => {
             return (
               <tr key={`user-${u.id}`}>
                 <td>{u.id}</td>
@@ -124,7 +133,7 @@ setShowEditUserModal(true);
       <h1>Users</h1>
       <div className="users-view-content">
         {
-          isLoaded ? usersTable() : <div>Loading...</div>
+          data.isLoaded ? usersTable() : <div>Loading...</div>
         }
       </div>
       <AddUserModal 
@@ -133,7 +142,7 @@ setShowEditUserModal(true);
         onAddUser={handleAdd}
       />
       <EditUserModal 
-        onShow={showEditUserModal}
+        show={showEditUserModal}
         onHide={() => setShowEditUserModal(false)}
         onEditUser={handleEdit}
         user={editUser}

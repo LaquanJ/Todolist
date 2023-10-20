@@ -2,65 +2,66 @@ import React, {useState} from 'react';
 import {Modal, Button, Form} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const EditUserModal = ({ onShow, onHide, user, onEditUser }) => {
-  const [editedUser, setEditedUser] = useState({ ...user });
-
-  const handleFieldChange = (e, fieldName) => {
-    const updatedUser = { ...editedUser, [fieldName]: e.target.value };
-    setEditedUser(updatedUser);
-  };
+const EditUserModal = ({ show, onHide, user, onEditUser }) => {
+  const [firstName, setFirstName] = useState(user ? user.firstName : '');
+  const [lastName, setLastName] = useState(user ? user.lastName : '');
+  const [email, setEmail] = useState(user ? user.email : '');
+  const [userName, setUserName] = useState(user ? user.userName : '');
 
   const handleUpdate = () => {
-    onEditUser(editedUser);
+    // onEditUser(user.id, data);
   };
-  console.log(user)
 
   return (
-    <Modal show={onShow} onHide={onHide}>
+    <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <label>Edit User</label>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        {
+          show ? 
+          <Form>
           <Form.Group>
             <Form.Label>First Name</Form.Label>
             <Form.Control
               type="text"
-              value={editedUser.firstName}
-              onChange={(e) => handleFieldChange(e, 'firstName')}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </Form.Group>
           <Form.Group>
             <Form.Label>Last Name</Form.Label>
             <Form.Control
               type="text"
-              value={editedUser.lastName}
-              onChange={(e) => handleFieldChange(e, 'lastName')}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
             />
           </Form.Group>
           <Form.Group>
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
-              value={editedUser.email}
-              onChange={(e) => handleFieldChange(e, 'email')}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
           <Form.Group>
             <Form.Label>User Name</Form.Label>
             <Form.Control
               type="text"
-              value={editedUser.userName}
-              onChange={(e) => handleFieldChange(e, 'userName')}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
             />
           </Form.Group>
-        </Form>
+        </Form> : <></>
+        }
+
       </Modal.Body>
       <Modal.Footer>
         <Button  onClick={onHide}>
           Close
         </Button>
-        <Button  onClick={handleUpdate}>
+        <Button  onClick={() => handleUpdate()}>
           Save Changes
         </Button>
       </Modal.Footer>

@@ -4,10 +4,15 @@ import { useState, useEffect } from 'react';
 // custom modules
 import api from '@utilities/todosApi.js';
 import '@views/Users.css';
+import AddUserModal from '@components/AddUserModal';
+import EditUserModal from '@components/EditUserModal';
 
 function Users() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [users, setUsers] = useState([]);
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const [showEditUserModal, setShowEditUserModal] = useState(false);
+  const [editUser, setEditUser] = useState(null);
 
   useEffect(() => {
     if (!isLoaded) {
@@ -36,8 +41,36 @@ function Users() {
       console.error(error);
     })
 
-
+    // close modal after user is added
+    setShowAddUserModal(false)
   };
+
+  //api call to edit user
+
+  const handleEdit = (id, updatedUser) => {
+    //Put request to update user
+    api.put(`users/${id}`, updatedUser).then((response)=> {
+      const updatedUsers = users.map((u) => {
+        if(u.id === id) {
+          return {...u, ...updatedUser};
+
+        }
+        return u;
+
+      });
+
+      setUsers(updatedUsers)
+      // close modal after user is edited
+    setShowEditUserModal(false)
+    }).catch((error) => {
+      console.error(error);
+    })
+  }
+
+  const updateUser = (user) => {
+setEditUser(user)
+setShowEditUserModal(true);
+  }
 
   const handleRemove = (id) => {
     api.delete(`users/${id}`)
@@ -60,7 +93,7 @@ function Users() {
             <th>Email</th>
             <th>UserName</th>
             <th>
-              <button onClick={() => handleAdd()}>+</button>
+              <button onClick={() => setShowAddUserModal(true)}>+</button>
             </th>
           </tr>
         </thead>
@@ -74,6 +107,7 @@ function Users() {
                 <td>{u.email}</td>
                 <td>{u.userName}</td>
                 <td>
+                  <button onClick={() => updateUser(u)}>Edit</button>
                   <button onClick={() => handleRemove(u.id)}>Remove</button>
                 </td>
               </tr>
@@ -93,6 +127,17 @@ function Users() {
           isLoaded ? usersTable() : <div>Loading...</div>
         }
       </div>
+      <AddUserModal 
+        onShow={showAddUserModal}
+        onHide={() => setShowAddUserModal(false)}
+        onAddUser={handleAdd}
+      />
+      <EditUserModal 
+        onShow={showEditUserModal}
+        onHide={() => setShowEditUserModal(false)}
+        onEditUser={handleEdit}
+        user={editUser}
+      />
     </div>
   )
 }

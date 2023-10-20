@@ -11,7 +11,7 @@ th {
 }
 
 .users-table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #04AA6D;
 }
 
 .users-table tbody tr:hover {

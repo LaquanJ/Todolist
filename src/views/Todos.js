@@ -29,15 +29,14 @@ function Todos() {
     api.put(`todos/${id}`, updatedTodo).then((response)=> {
       const updatedTodos = toDoList.map((todo) => {
         if(todo.id === id) {
-  console.log(todo);
-  console.log(updatedTodo)
+
           return {...todo, ...updatedTodo};
 
         }
         return todo;
 
       });
-      console.log(updatedTodos)
+
       setToDoList(updatedTodos)
     }).catch((error) => {
       console.error(error);

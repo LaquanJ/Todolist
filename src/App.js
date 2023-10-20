@@ -1,6 +1,7 @@
 // common modules
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Header from './components/Header';
 
 // custom modules
 import './App.css';
@@ -11,6 +12,7 @@ import Users from '@views/Users.js';
 function App() {
   return (
     <div className="App">
+      <Header />
       <Router>
         <Switch>
           <Route path="/" component={Home} exact />

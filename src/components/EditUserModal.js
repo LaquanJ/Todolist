@@ -1,15 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Modal, Button, Form} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EditUserModal = ({ show, onHide, user, onEditUser }) => {
-  const [firstName, setFirstName] = useState(user ? user.firstName : '');
-  const [lastName, setLastName] = useState(user ? user.lastName : '');
-  const [email, setEmail] = useState(user ? user.email : '');
-  const [userName, setUserName] = useState(user ? user.userName : '');
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.firstName);
+      setLastName(user.lastName);
+      setEmail(user.email);
+      setUserName(user.userName);
+    }
+  }, [user]);
 
   const handleUpdate = () => {
-    // onEditUser(user.id, data);
+    const updatedUser = {
+        firstName,
+        lastName,
+        email,
+        userName
+    };
+    onEditUser(user.id, updatedUser);
   };
 
   return (

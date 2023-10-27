@@ -45,7 +45,10 @@ function Users() {
   const handleAdd = (user) => {
     api.post('users', user).then((response) => {
       console.log(response.data);
-      setUsers([...users, { id: response.data.id, ...user }]);
+      setData({
+        users:[...data.users, { id: response.data.id, ...user }],
+        isLoaded: true
+      });
     }).catch((error) => {
       console.error(error);
     })
@@ -59,16 +62,19 @@ function Users() {
   const handleEdit = (id, updatedUser) => {
     //Put request to update user
     api.put(`users/${id}`, updatedUser).then((response)=> {
-      const updatedUsers = users.map((u) => {
+      const updatedUsers = data.users.map((u) => {
         if(u.id === id) {
           return {...u, ...updatedUser};
 
         }
         return u;
-
+  
       });
 
-      setUsers(updatedUsers)
+      setData({
+        users:updatedUsers,
+        isLoaded: true
+      })
       // close modal after user is edited
     setShowEditUserModal(false)
     }).catch((error) => {
@@ -78,13 +84,17 @@ function Users() {
 
   const updateUser = (user) => {
     setEditUser(user)
+    console.log('user/:', user)
     setShowEditUserModal(true);
   }
 
   const handleRemove = (id) => {
     api.delete(`users/${id}`)
       .then(() => {
-        setUsers(users.filter((u) => u.id !== id));
+        setData({
+          isLoaded: true,
+          users: data.users.filter((u) => u.id !== id)
+        });
       })
       .catch((error) => {
         console.error('Error deleting todo:', error);

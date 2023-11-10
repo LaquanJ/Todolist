@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { MsalProvider } from '@azure/msal-react';
+import { PublicClientApplication, EventType } from '@azure/msal-browser';
 
 // custom modules
 import App from './App';

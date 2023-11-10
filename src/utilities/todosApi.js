@@ -1,5 +1,8 @@
 // common modules
 import axios from 'axios';
+import { PublicClientApplication, InteractionRequiredAuthError } from '@azure/msal-browser';
+
+import { msalConfig, authenticated } from '@utilities/authentication.js';
 
 // =============================================================================
 // API client

@@ -10,7 +10,8 @@ import EditUserModal from '@components/EditUserModal';
 function Users() {
   const [data, setData] = useState({
     isLoaded: false,
-    users: []
+    users: [],
+    isError: false
   });
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showEditUserModal, setShowEditUserModal] = useState(false);
@@ -33,10 +34,10 @@ function Users() {
         })
         .catch((error) => {
           console.error(error);
-          setIsLoaded(true); // set isLoaded to true when error occurs
           setData({
             ...data,
             isLoaded: true,
+            isError: true
           })
         })
     }

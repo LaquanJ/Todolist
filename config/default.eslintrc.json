@@ -2,12 +2,11 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "globals": {},
-  "extends": [
-    "plugin:react/recommended"
-  ],
+  "extends": ["plugin:react/recommended"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "ecmaFeatures": {
@@ -15,196 +14,72 @@
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "rules": {
     "react/prop-types": [
       "off" // assumes types are being applied
     ],
-    "constructor-super": [
-      "error"
-    ],
-    "for-direction": [
-      "error"
-    ],
-    "getter-return": [
-      "warn"
-    ],
-    "no-async-promise-executor": [
-      "warn"
-    ],
-    "no-case-declarations": [
-      "warn"
-    ],
-    "no-class-assign": [
-      "warn"
-    ],
-    "no-compare-neg-zero": [
-      "warn"
-    ],
-    "no-cond-assign": [
-      "warn"
-    ],
-    "no-const-assign": [
-      "error"
-    ],
-    "no-constant-condition": [
-      "warn"
-    ],
-    "no-control-regex": [
-      "warn"
-    ],
-    "no-debugger": [
-      "warn"
-    ],
-    "no-delete-var": [
-      "warn"
-    ],
-    "no-dupe-args": [
-      "error"
-    ],
-    "no-dupe-class-members": [
-      "error"
-    ],
-    "no-dupe-else-if": [
-      "error"
-    ],
-    "no-dupe-keys": [
-      "error"
-    ],
-    "no-duplicate-case": [
-      "error"
-    ],
-    "no-empty": [
-      "warn"
-    ],
-    "no-empty-character-class": [
-      "warn"
-    ],
-    "no-empty-pattern": [
-      "warn"
-    ],
-    "no-ex-assign": [
-      "warn"
-    ],
-    "no-extra-boolean-cast": [
-      "warn"
-    ],
-    "no-extra-semi": [
-      "warn"
-    ],
-    "no-fallthrough": [
-      "warn"
-    ],
-    "no-func-assign": [
-      "error"
-    ],
-    "no-global-assign": [
-      "error"
-    ],
-    "no-import-assign": [
-      "error"
-    ],
-    "no-inner-declarations": [
-      "warn"
-    ],
-    "no-invalid-regexp": [
-      "error"
-    ],
-    "no-irregular-whitespace": [
-      "warn"
-    ],
-    "no-loss-of-precision": [
-      "warn"
-    ],
-    "no-misleading-character-class": [
-      "warn"
-    ],
-    "no-mixed-spaces-and-tabs": [
-      "warn"
-    ],
-    "no-new-symbol": [
-      "error"
-    ],
-    "no-nonoctal-decimal-escape": [
-      "warn"
-    ],
-    "no-obj-calls": [
-      "error"
-    ],
-    "no-octal": [
-      "warn"
-    ],
-    "no-prototype-builtins": [
-      "warn"
-    ],
-    "no-redeclare": [
-      "warn"
-    ],
-    "no-regex-spaces": [
-      "warn"
-    ],
-    "no-self-assign": [
-      "error"
-    ],
-    "no-setter-return": [
-      "warn"
-    ],
-    "no-shadow-restricted-names": [
-      "error"
-    ],
-    "no-sparse-arrays": [
-      "warn"
-    ],
-    "no-this-before-super": [
-      "error"
-    ],
-    "no-undef": [
-      "error"
-    ],
-    "no-unexpected-multiline": [
-      "warn"
-    ],
-    "no-unreachable": [
-      "warn"
-    ],
-    "no-unsafe-finally": [
-      "warn"
-    ],
-    "no-unsafe-negation": [
-      "warn"
-    ],
-    "no-unsafe-optional-chaining": [
-      "error"
-    ],
-    "no-unused-labels": [
-      "warn"
-    ],
-    "no-unused-vars": [
-      "warn"
-    ],
-    "no-useless-backreference": [
-      "warn"
-    ],
-    "no-useless-catch": [
-      "warn"
-    ],
-    "no-useless-escape": [
-      "warn"
-    ],
-    "no-with": [
-      "warn"
-    ],
-    "require-yield": [
-      "warn"
-    ],
-    "use-isnan": [
-      "warn"
-    ],
-    "valid-typeof": [
-      "warn"
-    ]
+    "constructor-super": ["error"],
+    "for-direction": ["error"],
+    "getter-return": ["warn"],
+    "no-async-promise-executor": ["warn"],
+    "no-case-declarations": ["warn"],
+    "no-class-assign": ["warn"],
+    "no-compare-neg-zero": ["warn"],
+    "no-cond-assign": ["warn"],
+    "no-const-assign": ["error"],
+    "no-constant-condition": ["warn"],
+    "no-control-regex": ["warn"],
+    "no-debugger": ["warn"],
+    "no-delete-var": ["warn"],
+    "no-dupe-args": ["error"],
+    "no-dupe-class-members": ["error"],
+    "no-dupe-else-if": ["error"],
+    "no-dupe-keys": ["error"],
+    "no-duplicate-case": ["error"],
+    "no-empty": ["warn"],
+    "no-empty-character-class": ["warn"],
+    "no-empty-pattern": ["warn"],
+    "no-ex-assign": ["warn"],
+    "no-extra-boolean-cast": ["warn"],
+    "no-extra-semi": ["warn"],
+    "no-fallthrough": ["warn"],
+    "no-func-assign": ["error"],
+    "no-global-assign": ["error"],
+    "no-import-assign": ["error"],
+    "no-inner-declarations": ["warn"],
+    "no-invalid-regexp": ["error"],
+    "no-irregular-whitespace": ["warn"],
+    "no-loss-of-precision": ["warn"],
+    "no-misleading-character-class": ["warn"],
+    "no-mixed-spaces-and-tabs": ["warn"],
+    "no-new-symbol": ["error"],
+    "no-nonoctal-decimal-escape": ["warn"],
+    "no-obj-calls": ["error"],
+    "no-octal": ["warn"],
+    "no-prototype-builtins": ["warn"],
+    "no-redeclare": ["warn"],
+    "no-regex-spaces": ["warn"],
+    "no-self-assign": ["error"],
+    "no-setter-return": ["warn"],
+    "no-shadow-restricted-names": ["error"],
+    "no-sparse-arrays": ["warn"],
+    "no-this-before-super": ["error"],
+    "no-undef": ["error"],
+    "no-unexpected-multiline": ["warn"],
+    "no-unreachable": ["warn"],
+    "no-unsafe-finally": ["warn"],
+    "no-unsafe-negation": ["warn"],
+    "no-unsafe-optional-chaining": ["error"],
+    "no-unused-labels": ["warn"],
+    "no-unused-vars": ["warn"],
+    "no-useless-backreference": ["warn"],
+    "no-useless-catch": ["warn"],
+    "no-useless-escape": ["warn"],
+    "no-with": ["warn"],
+    "require-yield": ["warn"],
+    "use-isnan": ["warn"],
+    "valid-typeof": ["warn"]
   },
   "settings": {
     "react": {

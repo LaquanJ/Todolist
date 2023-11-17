@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {Modal, Button, Form} from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const EditUserModal = ({ show, onHide, user, onEditUser }) => {
 

@@ -1,8 +1,11 @@
 // common modules
 import axios from 'axios';
-import { PublicClientApplication, InteractionRequiredAuthError } from '@azure/msal-browser';
+import jwtDecode from 'jwt-decode';
+import { InteractionRequiredAuthError } from '@azure/msal-browser';
+import { msalInstance, authenticated } from '@utilities/authentication.js';
 
-import { msalConfig, authenticated } from '@utilities/authentication.js';
+// globals
+let roles = [];
 
 // =============================================================================
 // API client
@@ -11,8 +14,8 @@ const client = axios.create({
   baseURL: process.env.REACT_APP_API_BASE,
   timeout: 30000,
   headers: {
-    'Accept': 'application/json',
-  }
+    Accept: 'application/json',
+  },
 });
 
 // add authorization header interceptor
@@ -36,7 +39,7 @@ export const scopes = [
   `${process.env.REACT_APP_API_TODOS_BASE_ID_URI}Users.Read`,
   `${process.env.REACT_APP_API_TODOS_BASE_ID_URI}Users.Write`,
   `${process.env.REACT_APP_API_TODOS_BASE_ID_URI}Users.Manage`,
-]
+];
 
 // =============================================================================
 // roles
@@ -46,19 +49,17 @@ export const initRoles = async () => {
   if (authenticated()) {
     await getToken();
   }
-}
+};
 
 // indicates if the access token contains any one of the specified roles
 export const hasRole = (desiredRoles) => {
   return roles.some((el) => desiredRoles.indexOf(el) >= 0);
-}
-
+};
 
 // =============================================================================
 // helpers
 // =============================================================================
 const getToken = async () => {
-  const msalInstance = new PublicClientApplication(msalConfig);
   const activeAccount = msalInstance.getActiveAccount();
   const accounts = msalInstance.getAllAccounts();
 
@@ -66,15 +67,15 @@ const getToken = async () => {
   try {
     const authResult = await msalInstance.acquireTokenSilent({
       scopes: scopes,
-      account: activeAccount || accounts[0]
+      account: activeAccount || accounts[0],
     });
 
     token = authResult.accessToken;
   } catch (error) {
     if (error instanceof InteractionRequiredAuthError) {
       const authResult = await msalInstance.acquireTokenPopup({
-        scopes: scopes
-      })
+        scopes: scopes,
+      });
 
       token = authResult.accessToken;
     } else {
@@ -86,4 +87,4 @@ const getToken = async () => {
   roles = jwtDecode(token).roles;
 
   return token;
-}
+};

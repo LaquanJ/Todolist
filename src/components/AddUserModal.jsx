@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Modal, Button, Form} from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AddUserModal = ({onShow, onHide, onAddUser}) =>{
     const [firstName, setFirstName] = useState('');

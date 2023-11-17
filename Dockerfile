@@ -24,11 +24,12 @@ RUN npm install --omit=optional \
 ENV PATH /opt/cla/node_modules/.bin:$PATH
 
 # copy solution files while setting ownership
-COPY --chown=node:node ./src ./src
-COPY --chown=node:node ./public ./public
-COPY --chown=node:node ./config/.browserslistrc ./.browserslistrc
-COPY --chown=node:node ./config/craco.config.js ./craco.config.js
 COPY --chown=node:node ./config/default.eslintrc.json ./default.eslintrc.json
+COPY --chown=node:node ./config/.browserslistrc ./.browserslistrc
+COPY --chown=node:node ./vite.config.js ./vite.config.js
+COPY --chown=node:node ./public/index.html ./index.html
+COPY --chown=node:node ./public ./public
+COPY --chown=node:node ./src ./src
 
 
 # start development server

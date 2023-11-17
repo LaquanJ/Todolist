@@ -1,7 +1,6 @@
-version: "3.4"
+version: '3.4'
 
 services:
-
   # ============================================================================
   # frontend
   # ============================================================================
@@ -30,22 +29,17 @@ services:
       # application
       - ./public:/opt/cla/public
       - ./src:/opt/cla/src
-      # - ./src/assets:/opt/cla/src/assets
-      # - ./src/components:/opt/cla/src/components
-      # - ./src/views:/opt/cla/src/views
-      # - ./src/utilities:/opt/cla/src/utilities
-      # - ./src/App.js:/opt/cla/src/App.js
-      # - ./src/index.js:/opt/cla/src/index.js
-      # - ./src/index.css:/opt/cla/src/index.css
-      # - ./src/App.css:/opt/cla/src/App.css
 
       # configuration
       - ./config/.browserslistrc:/opt/cla/.browserslistrc
-      - ./config/craco.config.js:/opt/cla/craco.config.js
       - ./config/default.eslintrc.json:/opt/cla/default.eslintrc.json
 
       # testing
+      - ./babel.config.json:/opt/cla/babel.config.json
+      - ./setupTests.js:/opt/cla/setupTests.js
+      - ./jest.config.js:/opt/cla/jest.config.js
       - ./test:/opt/cla/src/__tests__
+
   # ============================================================================
   # persistence
   # ============================================================================

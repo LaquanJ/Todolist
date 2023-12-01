@@ -17,6 +17,12 @@ module.exports = {
     '^@src/(.+)': '<rootDir>/src/$1',
   },
   coverageDirectory: '/tmp',
+  coverageThreshold: {
+    global: {
+      lines: 80,
+      statements: 80,
+    },
+  },
   coverageReporters: [
     'text',
     [

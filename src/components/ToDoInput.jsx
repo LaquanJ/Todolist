@@ -1,20 +1,17 @@
 // common modules
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const TodoInput = ({ addTodoFn, users }) => {
-
-
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
 
   const handleClick = () => {
-    addTodoFn({title, description, userId: selectedUser});
-    setTitle("");
-    setDescription("");
+    addTodoFn({ title, description, userId: selectedUser });
+    setTitle('');
+    setDescription('');
     setSelectedUser('');
-  }
+  };
 
   return (
     <div className='todo-input'>
@@ -24,7 +21,9 @@ const TodoInput = ({ addTodoFn, users }) => {
           type='text'
           placeholder='What is the tasks title'
           value={title}
-          onChange={(e) => setTitle(e.target.value)} />
+          onChange={(e) => setTitle(e.target.value)}
+          data-testid='todo-name-input'
+        />
       </div>
       <div className='todo-input-item'>
         <label>Description</label>
@@ -33,22 +32,23 @@ const TodoInput = ({ addTodoFn, users }) => {
           placeholder='What is the tasks description'
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          data-testid='todo-description-input'
         />
       </div>
 
       <div className='todo-input-item'>
         <label>Users</label>
-  <select
-    value={selectedUser}
-    onChange={(e) => setSelectedUser(e.target.value)}
-  >
-    <option value=''>Select a user</option>
-    {users.map((user) => (
-      <option key={`user-${user.id}`} value={user.id}>
-        {user.userName}
-      </option>
-    ))}
-  </select>
+        <select
+          value={selectedUser}
+          onChange={(e) => setSelectedUser(e.target.value)}
+        >
+          <option value=''>Select a user</option>
+          {users.map((user) => (
+            <option key={`user-${user.id}`} value={user.id}>
+              {user.userName}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className='todo-input-item'>
@@ -56,12 +56,13 @@ const TodoInput = ({ addTodoFn, users }) => {
           className='primaryBtn'
           type='button'
           onClick={handleClick}
-          >
+          data-testid='add-todo-button'
+        >
           Add
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default TodoInput;

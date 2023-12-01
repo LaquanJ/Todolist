@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {Modal, Button, Form} from 'react-bootstrap'
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 
 const EditUserModal = ({ show, onHide, user, onEditUser }) => {
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,10 +18,10 @@ const EditUserModal = ({ show, onHide, user, onEditUser }) => {
 
   const handleUpdate = () => {
     const updatedUser = {
-        firstName,
-        lastName,
-        email,
-        userName
+      firstName,
+      lastName,
+      email,
+      userName,
     };
     onEditUser(user.id, updatedUser);
   };
@@ -33,52 +32,48 @@ const EditUserModal = ({ show, onHide, user, onEditUser }) => {
         <label>Edit User</label>
       </Modal.Header>
       <Modal.Body>
-        {
-          show ? 
+        {show ? (
           <Form>
-          <Form.Group>
-            <Form.Label>First Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>User Name</Form.Label>
-            <Form.Control
-              type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-          </Form.Group>
-        </Form> : <></>
-        }
-
+            <Form.Group>
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                type='text'
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                type='text'
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>User Name</Form.Label>
+              <Form.Control
+                type='text'
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+        ) : (
+          <></>
+        )}
       </Modal.Body>
       <Modal.Footer>
-        <Button  onClick={onHide}>
-          Close
-        </Button>
-        <Button  onClick={() => handleUpdate()}>
-          Save Changes
-        </Button>
+        <Button onClick={onHide}>Close</Button>
+        <Button onClick={() => handleUpdate()}>Save Changes</Button>
       </Modal.Footer>
     </Modal>
   );

@@ -39,8 +39,21 @@ const ToDoList = ({ toDoList, setToDoList }) => {
     },
     {
       headerName: '',
+      sortable: false,
+      filterable: false,
+      hideable: false,
+      renderHeader: (params) => {
+        return (
+          <IconButton
+            aria-label='add-todo-button'
+            color='primary'
+            onClick={() => setShowAddModal(true)}
+          >
+            <AddTask />
+          </IconButton>
+        );
+      },
       renderCell: (params) => {
-        console.log(params);
         return (
           <Box>
             <IconButton
@@ -91,13 +104,6 @@ const ToDoList = ({ toDoList, setToDoList }) => {
         onClose={() => setShowAddModal(false)}
         onSave={handleAdd}
       />
-      <IconButton
-        aria-label='add-todo-button'
-        color='primary'
-        onClick={() => setShowAddModal(true)}
-      >
-        <AddTask />
-      </IconButton>
       <DataGrid
         rows={toDoList}
         columns={columns}

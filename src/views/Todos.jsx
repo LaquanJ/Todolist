@@ -8,9 +8,6 @@ import api from '@utilities/todosApi.js';
 
 function Todos() {
   const [toDoList, setToDoList] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [filter, setFilter] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
 
   const addTodo = (todo) => {
@@ -84,17 +81,11 @@ function Todos() {
           return response.data.results;
         })
         .then((todos) => {
-          // fetch users from API
-          return api.get('users').then((response) => {
-            // update users in component state
-            setUsers(response.data.results);
+          // set isLoaded to true when loading completes
+          setIsLoaded(true);
 
-            // set isLoaded to true when loading completes
-            setIsLoaded(true);
-
-            // update todo list in component state
-            setToDoList(todos);
-          });
+          // update todo list in component state
+          setToDoList(todos);
         })
         .catch((error) => {
           console.error(error);
@@ -103,49 +94,19 @@ function Todos() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isLoaded) {
-      // update filtered results based on filter
-      if (filter === 'done') {
-        setFilteredList(toDoList.filter((t) => t.done === true));
-      } else if (filter === '') {
-        // Display todos not mark completed
-        setFilteredList(toDoList.filter((t) => t.done !== true));
-      } else {
-        setFilteredList(toDoList);
-      }
-    }
-  }, [filter, toDoList]);
-
   return (
     <div className='todos-view'>
       <h1 data-testid='todos-header'>Todos</h1>
       {isLoaded ? (
-        <div className='todo-wrapper'>
-          <TodoInput addTodoFn={addTodo} users={users} />
-          <div className='btn-area'>
-            <button
-              className={`secondaryBtn ${filter !== 'done' && 'active'}`}
-              onClick={() => setFilter('')}
-            >
-              Todo
-            </button>
-            <button
-              className={`secondaryBtn ${filter === 'done' && 'active'}`}
-              onClick={() => setFilter('done')}
-            >
-              Completed
-            </button>
-          </div>
-          {toDoList && (
-            <TodoList
-              toDoList={filteredList}
-              deleteTodo={deleteTodo}
-              onComplete={markComplete}
-              editTodo={editTodo}
-            />
-          )}
-        </div>
+        toDoList && (
+          <TodoList
+            setToDoList={setToDoList}
+            toDoList={toDoList}
+            deleteTodo={deleteTodo}
+            onComplete={markComplete}
+            editTodo={editTodo}
+          />
+        )
       ) : (
         <div>Loading...</div>
       )}

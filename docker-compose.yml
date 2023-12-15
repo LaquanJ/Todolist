@@ -60,7 +60,7 @@ services:
   ### backend
   ### ==========================================================================
   api:
-    image: todo-web-api-app:latest
+    image: todo-web-api_app:latest
     command: >
       sh -c './wait-for.sh -t 300 sql:1433 \
        -- npm run start'

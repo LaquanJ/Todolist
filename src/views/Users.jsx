@@ -11,7 +11,7 @@ function Users() {
   const [data, setData] = useState({
     isLoaded: false,
     users: [],
-    isError: false
+    isError: false,
   });
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showEditUserModal, setShowEditUserModal] = useState(false);
@@ -22,79 +22,85 @@ function Users() {
   useEffect(() => {
     if (!data.isLoaded) {
       // fetch todos from API
-      api.get('users')
+      api
+        .get('users')
         .then((response) => {
           console.log(response.data.results);
 
           // update users and isLoaded
           setData({
             isLoaded: true,
-            users: response.data.results
-          })
+            users: response.data.results,
+          });
         })
         .catch((error) => {
           console.error(error);
           setData({
             ...data,
             isLoaded: true,
-            isError: true
-          })
-        })
+            isError: true,
+          });
+        });
     }
   }, []);
 
   const handleAdd = (user) => {
-    api.post('users', user).then((response) => {
-      console.log(response.data);
-      setData({
-        users:[...data.users, { id: response.data.id, ...user }],
-        isLoaded: true
+    api
+      .post('users', user)
+      .then((response) => {
+        console.log(response.data);
+        setData({
+          users: [...data.users, { id: response.data.id, ...user }],
+          isLoaded: true,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    }).catch((error) => {
-      console.error(error);
-    })
 
     // close modal after user is added
-    setShowAddUserModal(false)
+    setShowAddUserModal(false);
   };
 
   //api call to edit user
 
   const handleEdit = (id, updatedUser) => {
     //Put request to update user
-    api.put(`users/${id}`, updatedUser).then((response)=> {
-      const updatedUsers = data.users.map((u) => {
-        if(u.id === id) {
-          return {...u, ...updatedUser};
+    api
+      .put(`users/${id}`, updatedUser)
+      .then((response) => {
+        const updatedUsers = data.users.map((u) => {
+          if (u.id === id) {
+            return { ...u, ...updatedUser };
+          }
+          return u;
+        });
 
-        }
-        return u;
-  
-      });
-
-      setData({
-        users:updatedUsers,
-        isLoaded: true
+        setData({
+          users: updatedUsers,
+          isLoaded: true,
+        });
+        // close modal after user is edited
+        setShowEditUserModal(false);
       })
-      // close modal after user is edited
-    setShowEditUserModal(false)
-    }).catch((error) => {
-      console.error(error);
-    })
-  }
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const updateUser = (user) => {
-    setEditUser(user)
-    console.log('user/:', user)
+    setEditUser(user);
+    console.log('user/:', user);
     setShowEditUserModal(true);
-  }
+  };
 
   const handleRemove = (id) => {
-    api.delete(`users/${id}`)
+    api
+      .delete(`users/${id}`)
       .then(() => {
         setData({
           isLoaded: true,
-          users: data.users.filter((u) => u.id !== id)
+          users: data.users.filter((u) => u.id !== id),
         });
       })
       .catch((error) => {
@@ -104,7 +110,7 @@ function Users() {
 
   const usersTable = () => {
     return (
-      <table className="users-table">
+      <table className='users-table'>
         <thead>
           <tr>
             <th>ID</th>
@@ -118,48 +124,46 @@ function Users() {
           </tr>
         </thead>
         <tbody>
-          {data.users && data.users.map((u) => {
-            return (
-              <tr key={`user-${u.id}`}>
-                <td>{u.id}</td>
-                <td>{u.firstName}</td>
-                <td>{u.lastName}</td>
-                <td>{u.email}</td>
-                <td>{u.userName}</td>
-                <td>
-                  <button onClick={() => updateUser(u)}>Edit</button>
-                  <button onClick={() => handleRemove(u.id)}>Remove</button>
-                </td>
-              </tr>
-            )
-          })}
+          {data.users &&
+            data.users.map((u) => {
+              return (
+                <tr key={`user-${u.id}`}>
+                  <td>{u.id}</td>
+                  <td>{u.firstName}</td>
+                  <td>{u.lastName}</td>
+                  <td>{u.email}</td>
+                  <td>{u.userName}</td>
+                  <td>
+                    <button onClick={() => updateUser(u)}>Edit</button>
+                    <button onClick={() => handleRemove(u.id)}>Remove</button>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
-
       </table>
-    )
-  }
+    );
+  };
 
   return (
-    <div className="users-view">
+    <div className='users-view'>
       <h1>Users</h1>
-      <div className="users-view-content">
-        {
-          data.isLoaded ? usersTable() : <div>Loading...</div>
-        }
+      <div className='users-view-content'>
+        {data.isLoaded ? usersTable() : <div>Loading...</div>}
       </div>
-      <AddUserModal 
+      <AddUserModal
         onShow={showAddUserModal}
         onHide={() => setShowAddUserModal(false)}
         onAddUser={handleAdd}
       />
-      <EditUserModal 
+      <EditUserModal
         show={showEditUserModal}
         onHide={() => setShowEditUserModal(false)}
         onEditUser={handleEdit}
         user={editUser}
       />
     </div>
-  )
+  );
 }
 
 export default Users;

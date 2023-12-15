@@ -1,7 +1,7 @@
 // common modules
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Header from './components/Header';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import Header from './components/Header';
 import {
   AuthenticatedTemplate,
   UnauthenticatedTemplate,
@@ -11,9 +11,8 @@ import { InteractionStatus } from '@azure/msal-browser';
 
 // custom modules
 import './App.css';
-import Home from '@views/Home';
 import Todos from '@views/Todos';
-import Users from '@views/Users';
+// import Users from '@views/Users';
 import { scopes } from '@utilities/todosApi.js';
 import { injectLocalDevelopmentTokens } from '@utilities/authentication';
 
@@ -38,12 +37,11 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        <Header />
+        {/* <Header /> */}
         <AuthenticatedTemplate>
           <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/todos' element={<Todos />} />
-            <Route path='/users' element={<Users />} />
+            <Route path='/' element={<Todos />} />
+            {/* <Route path='/users' element={<Users />} /> */}
           </Routes>
         </AuthenticatedTemplate>
         <UnauthenticatedTemplate>

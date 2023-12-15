@@ -1,9 +1,8 @@
 // common modules
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import { MsalProvider } from '@azure/msal-react';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 // custom modules
 import App from './App';
@@ -15,7 +14,9 @@ import { msalInstance } from '@utilities/authentication.js';
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <MsalProvider instance={msalInstance}>
-      <App />
+      <StyledEngineProvider injectFirst>
+        <App />
+      </StyledEngineProvider>
     </MsalProvider>
   </React.StrictMode>,
   document.getElementById('root')
